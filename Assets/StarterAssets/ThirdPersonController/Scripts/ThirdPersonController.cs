@@ -15,6 +15,7 @@ namespace StarterAssets
     public class ThirdPersonController : MonoBehaviour
     {
         [Header("Player")]
+
         [Tooltip("Move speed of the character in m/s")]
         public float ForwardMoveSpeed = 2.0f;
         public float StrafeMoveSpeed = 2.0f;

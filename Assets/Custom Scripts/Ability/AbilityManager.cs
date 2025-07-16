@@ -32,12 +32,12 @@ public class AbilityManager : MonoBehaviour
 
     public bool CanUseAbility(Ability ability)
     {
-        return currentlyActiveAbility == null || ability.canInterruptOthers;
+        return currentlyActiveAbility == null || ability.abilityStat.canInterruptOthers;
     }
 
     public void NotifyAbilityStarted(Ability ability)
     {
-        if (currentlyActiveAbility != null && ability.canInterruptOthers)
+        if (currentlyActiveAbility != null && ability.abilityStat.canInterruptOthers)
         {
             // Optionally add cancellation logic here
             Debug.Log($"{ability.name} is interrupting {currentlyActiveAbility.name}");
