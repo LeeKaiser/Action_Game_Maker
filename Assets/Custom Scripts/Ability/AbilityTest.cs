@@ -14,7 +14,7 @@ public class AbilityTest : Ability
             currentCharge -= 1;
         }
         InterruptReload();
-        yield return new WaitForSeconds(useTime);
+        yield return new WaitForSeconds(abilityStat.useTime);
     }
 
     protected override IEnumerator ExecuteReleased(float chargeRatio)
@@ -26,7 +26,7 @@ public class AbilityTest : Ability
 
     void Update()
     {
-        if (currentCharge < maxCharge && !isActive)
+        if (currentCharge < abilityStat.maxCharge && !isActive)
         {
             rechargeInProgress = true;
         }

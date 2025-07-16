@@ -2,65 +2,42 @@ using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
+using StarterAssets;
 
 
 public class PlayableCharCore : MonoBehaviour
 {
     //variables
-    [Header("Hitpoints vars")]
-    [Tooltip("base hp")]
-    public int hitPointsBase ;
+    [Header("Player stats")]
+    [Tooltip("playable character base stats")]
+    public PlayableCharacterStats PlayerStats;
 
-    [Tooltip("Current hp")]
-    private int hitPointsCurrent;
+    private int hitPointsCurrent; //current hp
+    private float damageTakeMult = 1f; //damage taken multiplier
+    private float damageDealMult = 1f; //damage dealt multiplier
 
-    [Header("Damage modifier vars")]
-    
-    [Tooltip("Damage Taken Multiplier - multiply damage taken by this value.")]
-    public float damageTakeMult = 1f;
-    private float damageTakeMultBase = 1f;
-
-    private float damageDealMultBase = 1f;
-    [Tooltip("Damage Dealt Multiplier - multiply damage dealt to others by this value.")]
-    public float damageDealMult = 1f;
-
-    [Header("Movement vars")]
-    [Tooltip("base forward speed")]
-    public float forwardSpeedBase = 6f;
+    //forward movement adjustment
     private float forwardSpeedCurrent = 6f;
     private float forwardSpeedMult = 1f;
-
-    [Tooltip("base backward speed")]
-    public float backwardSpeedBase = 6f;
+    //backward movement adjustment
     private float backwardSpeedCurrent = 6f;
     private float backwardSpeedMult = 1f;
-
-    [Tooltip("base strafe speed")]
-    public float strafeSpeedBase = 6f;
+    //strafe movement adjustment
     private float strafeSpeedCurrent = 6f;
     private float strafeSpeedMult = 1f;
-
-    
-
-    [Tooltip("base Jump Height")]
-    public float jumpHeightBase = 1.4f;
+    //jump height adjustment
     private float jumpHeightCurrent = 1.4f;
     private float jumpHeightMult = 1f;
-
-    [Tooltip("base Gravity")]
-    public float GravityBase = -15f;
+    //gravity adjustment
     private float GravityCurrent = -15f;
     private float GravityMult = 1f;
 
     [Tooltip("If player faces movement or camera (true for movement, false for camera)")]
     public bool PlayerFaceMovement = true;
 
-
-    //add ability / passive / inventory array in future
-
     [Header("Misc.")]
     [Tooltip("Third person controller script")]
-    public GameObject playerArmature;
+    public ThirdPersonController playerMovement;
 
 #if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
@@ -68,26 +45,26 @@ public class PlayableCharCore : MonoBehaviour
 
     //add operation for match load
     void Start(){
-        hitPointsCurrent = hitPointsBase;
-        damageTakeMult = damageTakeMultBase;
-        damageDealMult = damageDealMultBase;
-        forwardSpeedCurrent = forwardSpeedBase;
-        strafeSpeedCurrent = strafeSpeedBase;
-        backwardSpeedCurrent = backwardSpeedBase;
-        jumpHeightCurrent = jumpHeightBase;
-        GravityCurrent = GravityBase;
+        hitPointsCurrent = PlayerStats.hitPointsBase;
+        damageTakeMult = PlayerStats.damageTakeMultBase;
+        damageDealMult = PlayerStats.damageDealMultBase;
+        forwardSpeedCurrent = PlayerStats.forwardSpeedBase;
+        strafeSpeedCurrent = PlayerStats.strafeSpeedBase;
+        backwardSpeedCurrent = PlayerStats.backwardSpeedBase;
+        jumpHeightCurrent = PlayerStats.jumpHeightBase;
+        GravityCurrent = PlayerStats.GravityBase;
 
     }
 
     //add Player operations that must be done every tick
     void Update(){
         //set movement speed in third person controller equal to moveSpeedCurrent
-        playerArmature.GetComponent<StarterAssets.ThirdPersonController>().SetForwardMovementSpeed(forwardSpeedCurrent);
-        playerArmature.GetComponent<StarterAssets.ThirdPersonController>().SetStrafeMovementSpeed(strafeSpeedCurrent);
-        playerArmature.GetComponent<StarterAssets.ThirdPersonController>().SetBackwardMovementSpeed(backwardSpeedCurrent);
-        playerArmature.GetComponent<StarterAssets.ThirdPersonController>().SetGravity(GravityCurrent);
-        playerArmature.GetComponent<StarterAssets.ThirdPersonController>().SetJumpHeight(jumpHeightCurrent);
-        playerArmature.GetComponent<StarterAssets.ThirdPersonController>().setPlayerFaceMove(PlayerFaceMovement);
+        playerMovement.SetForwardMovementSpeed(forwardSpeedCurrent);
+        playerMovement.SetStrafeMovementSpeed(strafeSpeedCurrent);
+        playerMovement.SetBackwardMovementSpeed(backwardSpeedCurrent);
+        playerMovement.SetGravity(GravityCurrent);
+        playerMovement.SetJumpHeight(jumpHeightCurrent);
+        playerMovement.setPlayerFaceMove(PlayerFaceMovement);
         
     }
 
