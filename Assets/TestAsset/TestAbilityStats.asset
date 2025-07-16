@@ -22,4 +22,4 @@ MonoBehaviour:
   useFailTime: 0
   maxChargeTime: 0
   usePerSec: 0
-  inputMode: 5
+  inputMode: 1
