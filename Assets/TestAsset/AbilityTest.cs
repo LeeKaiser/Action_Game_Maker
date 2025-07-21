@@ -6,11 +6,16 @@ using System.Collections;
 
 public class AbilityTest : Ability
 {
+    public StatusEffect SpeedBoost;
+    
+
     protected override IEnumerator Execute()
     {
         if (currentCharge > 0)
         {
-            Debug.Log("Ability tapped or held.");
+            Debug.Log("Ability tapped or held. apply speed boost");
+            UserRef.GetComponent<StatusEffectManager>().AddNewEffect(SpeedBoost);
+            
             currentCharge -= 1;
         }
         InterruptReload();

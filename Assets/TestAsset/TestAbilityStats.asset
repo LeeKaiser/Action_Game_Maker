@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxCharge: 1
   chargePointsRequired: 100
-  chargePointsPerSec: 100
+  chargePointsPerSec: 1000
   chargeGainPerFullRecharge: 1
-  actionReference: {fileID: 0}
+  actionReference: {fileID: 2427769509979364270, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   canInterruptOthers: 0
   useTime: 0.2
   useFailTime: 0

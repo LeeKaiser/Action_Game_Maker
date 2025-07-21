@@ -59,11 +59,11 @@ public class PlayableCharCore : MonoBehaviour
     //add Player operations that must be done every tick
     void Update(){
         //set movement speed in third person controller equal to moveSpeedCurrent
-        playerMovement.SetForwardMovementSpeed(forwardSpeedCurrent);
-        playerMovement.SetStrafeMovementSpeed(strafeSpeedCurrent);
-        playerMovement.SetBackwardMovementSpeed(backwardSpeedCurrent);
-        playerMovement.SetGravity(GravityCurrent);
-        playerMovement.SetJumpHeight(jumpHeightCurrent);
+        playerMovement.SetForwardMovementSpeed(forwardSpeedCurrent * forwardSpeedMult);
+        playerMovement.SetStrafeMovementSpeed(strafeSpeedCurrent * strafeSpeedMult);
+        playerMovement.SetBackwardMovementSpeed(backwardSpeedCurrent * backwardSpeedMult);
+        playerMovement.SetGravity(GravityCurrent * GravityMult);
+        playerMovement.SetJumpHeight(jumpHeightCurrent * jumpHeightMult);
         playerMovement.setPlayerFaceMove(PlayerFaceMovement);
         
     }
@@ -71,6 +71,21 @@ public class PlayableCharCore : MonoBehaviour
     public void DealDamage(int damage)
     {
         hitPointsCurrent -= damage;
+    }
+
+    public void ModifyForwardSpeed(float speedMod)
+    {
+        forwardSpeedMult += speedMod;
+    }
+
+    public void ModifyStrafeSpeed(float speedMod)
+    {
+        strafeSpeedMult += speedMod;
+    }
+
+    public void ModifyBackwardSpeed(float speedMod)
+    {
+        backwardSpeedMult += speedMod;
     }
 
 
