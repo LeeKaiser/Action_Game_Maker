@@ -223,16 +223,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16174184d30db4f3f8b42b844700d484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPointsBase: 0
-  damageTakeMult: 1
-  damageDealMult: 1
-  forwardSpeedBase: 6
-  backwardSpeedBase: 6
-  strafeSpeedBase: 6
-  jumpHeightBase: 1.4
-  GravityBase: -15
+  PlayerStats: {fileID: 0}
   PlayerFaceMovement: 1
-  playerArmature: {fileID: 0}
+  playerMovement: {fileID: 0}
 --- !u!4 &144842363
 Transform:
   m_ObjectHideFlags: 0
@@ -441,6 +434,7 @@ GameObject:
   m_Component:
   - component: {fileID: 721576137}
   - component: {fileID: 721576138}
+  - component: {fileID: 721576139}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -485,6 +479,20 @@ MonoBehaviour:
   PlayerStats: {fileID: 11400000, guid: 91416d36eb03940b1a4e428ffabeaf7f, type: 2}
   PlayerFaceMovement: 0
   playerMovement: {fileID: 1762682261}
+--- !u!114 &721576139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721576136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c3ca967cde1747fb8f094a29566c836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EffectTimeMultiplierBuffs: 1
+  EffectTimeMultiplierDebuffs: 1
 --- !u!1001 &746329221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -925,6 +933,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityStat: {fileID: 11400000, guid: 65ea82d6d1a95422396fff79c440789f, type: 2}
+  UserRef: {fileID: 721576136}
+  SpeedBoost: {fileID: 11400000, guid: 102d9bbd0b8b343a4b16ff2762bb09ba, type: 2}
 --- !u!4 &1110910345
 Transform:
   m_ObjectHideFlags: 0

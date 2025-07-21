@@ -10,6 +10,8 @@ public abstract class Ability: MonoBehaviour
     [Header("ability stats")]
     [Tooltip("ability stats")]
     public AbilityStats abilityStat;
+    [Tooltip("reference to user")]
+    public GameObject UserRef;
     //variables
     protected int currentCharge ; //remaining  charge
 
