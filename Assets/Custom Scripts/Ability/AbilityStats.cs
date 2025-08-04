@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using System;
 
 [CreateAssetMenu(fileName = "AbilityStats", menuName = "Scriptable Objects/AbilityStats")]
 public class AbilityStats : ScriptableObject
@@ -38,7 +39,7 @@ public class AbilityStats : ScriptableObject
     [Header("hold fire variables")]
     [Tooltip("amount of time ability is used per second")]
     public float usePerSec;
-    
+
     [System.Flags]
     public enum InputResponseMode
     {
@@ -49,4 +50,7 @@ public class AbilityStats : ScriptableObject
     }
 
     public InputResponseMode inputMode = InputResponseMode.Tap | InputResponseMode.Release;
+
+    [Header("Events default to all abilities")]
+    public PlayerEvent onAbilityUsePlayerEvent;
 }

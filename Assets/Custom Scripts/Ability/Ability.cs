@@ -35,9 +35,10 @@ public abstract class Ability: MonoBehaviour
         currentCharge = abilityStat.maxCharge;
     }
 
-    public virtual void Initialize(PlayerInput playerInput, AbilityManager owningManager)
+    public virtual void Initialize(PlayerInput playerInput, AbilityManager owningManager, GameObject playerReference)
     {
-        manager = owningManager;
+        this.manager = owningManager;
+        this.UserRef = playerReference;
 
         if (abilityStat.actionReference == null || abilityStat.actionReference.action == null)
         {
@@ -59,6 +60,8 @@ public abstract class Ability: MonoBehaviour
         boundAction.canceled += OnInputCanceled;
 
         Debug.Log($"{gameObject.name} bound to input: {boundAction.name}");
+
+        abilityStat.onAbilityUsePlayerEvent.Init( UserRef.GetComponent<PlayerEventManager>());
     }
 
     //method that activates when user first presses the input

@@ -6,6 +6,7 @@ public class AbilityManager : MonoBehaviour
     [SerializeField] private Ability[] abilities;
     private PlayerInput playerInput;
     private Ability currentlyActiveAbility;
+    public GameObject playerRef;
 
     void Awake()
     {
@@ -17,7 +18,7 @@ public class AbilityManager : MonoBehaviour
         foreach (var ability in abilities)
         {
             if (ability != null)
-                ability.Initialize(playerInput, this);
+                ability.Initialize(playerInput, this, playerRef);
         }
     }
 
