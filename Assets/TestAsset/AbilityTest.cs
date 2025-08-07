@@ -7,7 +7,6 @@ using System.Collections;
 public class AbilityTest : Ability
 {
     public StatusEffect SpeedBoost;
-    
 
     protected override IEnumerator Execute()
     {
@@ -15,7 +14,7 @@ public class AbilityTest : Ability
         {
             Debug.Log("Ability tapped or held. apply speed boost");
             UserRef.GetComponent<StatusEffectManager>().AddNewEffect(SpeedBoost);
-            
+            abilityStat.onAbilityUsePlayerEvent.DetectPlayerEvent();
             currentCharge -= 1;
         }
         InterruptReload();

@@ -218,7 +218,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144842361}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16174184d30db4f3f8b42b844700d484, type: 3}
   m_Name: 
@@ -435,6 +435,7 @@ GameObject:
   - component: {fileID: 721576137}
   - component: {fileID: 721576138}
   - component: {fileID: 721576139}
+  - component: {fileID: 721576140}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -493,6 +494,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EffectTimeMultiplierBuffs: 1
   EffectTimeMultiplierDebuffs: 1
+--- !u!114 &721576140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721576136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19da85b8892cb41bf84f81c801aa164a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &746329221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1403,6 +1416,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilities:
   - {fileID: 1110910344}
+  playerRef: {fileID: 721576136}
 --- !u!1 &1764214107
 GameObject:
   m_ObjectHideFlags: 0

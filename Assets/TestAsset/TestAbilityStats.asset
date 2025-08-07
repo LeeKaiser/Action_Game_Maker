@@ -23,3 +23,4 @@ MonoBehaviour:
   maxChargeTime: 0
   usePerSec: 0
   inputMode: 1
+  onAbilityUsePlayerEvent: {fileID: 11400000, guid: e7d286442bcbf41ac98bd61f1bb2ffbe, type: 2}
