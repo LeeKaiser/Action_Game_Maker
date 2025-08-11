@@ -32,7 +32,7 @@ You can expect HSM to provide tools to replicate core features of these games.
   - This allows game mechanics that operate based on player events to be able to reference this player event manager.
 
 - AI players
-  - Primarily for making players who are not controlled by a client. Should also be applicable for making other AI controlled entity such as 
+  - Primarily for making players who are not controlled by a client. Should also be applicable for making other AI controlled entity such as spawnables or npc monsters
 
 ## Match Focused Features
 - Multiplayer
