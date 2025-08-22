@@ -1,15 +1,62 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using System;
 using System.Collections;
 
-public abstract class Ability: MonoBehaviour
+
+public abstract class Ability : ScriptableObject
 {
+    //variables
+    [Header("Cooldown variables")]
+    [Tooltip("maximum amount of charge that can be held")]
+    public int maxCharge = 1;
+
+    [Tooltip("Amount of charge to gain in order to complete a charge once")]
+    public float chargePointsRequired = 100;
+
+    [Tooltip("amount of charge point gained per second ")]
+    public float chargePointsPerSec = 100;
+
+    [Tooltip("amount of charge gained per full charge point")]
+    public int chargeGainPerFullRecharge = 1;
+
+    [Header("Input variables")]
+    [Tooltip("all input that can be used to activate this ability")]
+    public InputActionReference actionReference;
+
+    [Header("use time related variables")]
+    [Tooltip("if using ability disables use of other abilities")]
+    public bool canInterruptOthers = false;
+    [Tooltip("amount of time ability use is disabled for when using the ability")]
+    public float useTime = 0.2f;
+    [Tooltip("amount of time ability use is disabled for when attempting to use ability and it fails")]
+    public float useFailTime = 0.0f;
+
+    [Header("charge variables")]
+    [Tooltip("amount of time to charge up ability")]
+    public float maxChargeTime;
+
+    [Header("hold fire variables")]
+    [Tooltip("amount of time ability is used per second")]
+    public float usePerSec;
+
+    [System.Flags]
+    public enum InputResponseMode
+    {
+        None = 0,
+        Tap = 1 << 0,
+        Hold = 1 << 1,
+        Release = 1 << 2
+    }
+
+    public InputResponseMode inputMode = InputResponseMode.Tap | InputResponseMode.Release;
+
+    [Header("Events default to all abilities")]
+    public PlayerEvent onAbilityUsePlayerEvent;
+
     //charge represents a use of an ability (functional as ammo)
     //charge point is progress to complete a full charge up or reload.
-    [Header("ability stats")]
-    [Tooltip("ability stats")]
-    public AbilityStats abilityStat;
     [Tooltip("reference to user")]
     public GameObject UserRef;
     //variables
@@ -30,28 +77,25 @@ public abstract class Ability: MonoBehaviour
     private Coroutine holdLoop;
     private bool isCharging = false;
 
-    void Start()
-    {
-        currentCharge = abilityStat.maxCharge;
-    }
-
     public virtual void Initialize(PlayerInput playerInput, AbilityManager owningManager, GameObject playerReference)
     {
+        currentCharge = maxCharge;
+
         this.manager = owningManager;
         this.UserRef = playerReference;
 
-        if (abilityStat.actionReference == null || abilityStat.actionReference.action == null)
+        if (actionReference == null || actionReference.action == null)
         {
-            Debug.LogError($"{gameObject.name}: No InputActionReference assigned.");
+            Debug.LogError($"No InputActionReference assigned.");
             return;
         }
 
         // Get the runtime action instance from PlayerInput
-        boundAction = playerInput.actions.FindAction(abilityStat.actionReference.action.name);
+        boundAction = playerInput.actions.FindAction(actionReference.action.name);
 
         if (boundAction == null)
         {
-            Debug.LogError($"{gameObject.name}: Action '{abilityStat.actionReference.action.name}' not found in PlayerInput.");
+            Debug.LogError($"Action '{actionReference.action.name}' not found in PlayerInput.");
             return;
         }
 
@@ -59,9 +103,9 @@ public abstract class Ability: MonoBehaviour
         boundAction.performed += OnInputHeld;
         boundAction.canceled += OnInputCanceled;
 
-        Debug.Log($"{gameObject.name} bound to input: {boundAction.name}");
+        Debug.Log($"bound to input: {boundAction.name}");
 
-        abilityStat.onAbilityUsePlayerEvent.Init( UserRef.GetComponent<PlayerEventManager>());
+        onAbilityUsePlayerEvent.Init( UserRef.GetComponent<PlayerEventManager>());
     }
 
     //method that activates when user first presses the input
@@ -73,15 +117,15 @@ public abstract class Ability: MonoBehaviour
         {
             Debug.Log("Hold started → begin auto-fire and charge timer");
 
-            if (abilityStat.inputMode.HasFlag(AbilityStats.InputResponseMode.Release) )
+            if (inputMode.HasFlag(InputResponseMode.Release) )
             {
                 isCharging = true;
                 holdStartTime = Time.time;
             }
 
-            if (holdLoop == null && abilityStat.inputMode.HasFlag(AbilityStats.InputResponseMode.Hold) )
+            if (holdLoop == null && inputMode.HasFlag(InputResponseMode.Hold) )
             {
-                holdLoop = StartCoroutine(RepeatWhileHeld());
+                holdLoop = manager.StartCoroutine(RepeatWhileHeld());
             }
         }
 
@@ -92,11 +136,12 @@ public abstract class Ability: MonoBehaviour
     protected virtual void OnInputHeld(InputAction.CallbackContext context)
     {
         if (!CanActivate()) return;
+        Debug.Log(context.interaction);
 
-        if (context.interaction is TapInteraction && abilityStat.inputMode.HasFlag(AbilityStats.InputResponseMode.Tap))
+        if (context.interaction is TapInteraction && inputMode.HasFlag(InputResponseMode.Tap))
         {
             Debug.Log("Tap performed → single fire");
-            StartCoroutine(ActivateAbility());
+            manager.StartCoroutine(ActivateAbility());
         }
     }
 
@@ -105,21 +150,21 @@ public abstract class Ability: MonoBehaviour
     {
         if (!CanActivate()) return;
 
-        if (isCharging && abilityStat.inputMode.HasFlag(AbilityStats.InputResponseMode.Release))
+        if (isCharging && inputMode.HasFlag(InputResponseMode.Release))
         {
             Debug.Log("Hold released → fire charged shot");
 
             isCharging = false;
 
             float heldTime = Time.time - holdStartTime;
-            float chargeRatio = Mathf.Clamp01(heldTime / abilityStat.maxChargeTime);
+            float chargeRatio = Mathf.Clamp01(heldTime / maxChargeTime);
 
-            StartCoroutine(ActivateReleasedAbility(chargeRatio));
+            manager.StartCoroutine(ActivateReleasedAbility(chargeRatio));
         }
 
         if (holdLoop != null)
         {
-            StopCoroutine(holdLoop);
+            manager.StopCoroutine(holdLoop);
             holdLoop = null;
         }
     }
@@ -132,7 +177,7 @@ public abstract class Ability: MonoBehaviour
             Debug.Log("Auto-firing while held");
             yield return Execute(); // normal attack
             
-            float unloadTime = 1 / abilityStat.usePerSec;
+            float unloadTime = 1 / usePerSec;
 
             yield return new WaitForSeconds(unloadTime);
         }
@@ -173,7 +218,7 @@ public abstract class Ability: MonoBehaviour
         return !isActive && manager.CanUseAbility(this) && currentCharge >= 1;
     }
 
-
+    public virtual void perTick(float deltaTime){}
 
     // # Ability recharge code
     //recover ability charge point
@@ -181,20 +226,20 @@ public abstract class Ability: MonoBehaviour
 
         if (rechargeInProgress)
         {
-            chargePointsProgress += abilityStat.chargePointsPerSec * TimeElapsed * chargePointMultiplier;
-            while (chargePointsProgress >= abilityStat.chargePointsRequired)
+            chargePointsProgress += chargePointsPerSec * TimeElapsed * chargePointMultiplier;
+            while (chargePointsProgress >= chargePointsRequired)
             {
                 //give a charge
-                if (currentCharge < abilityStat.maxCharge)
+                if (currentCharge < maxCharge)
                 {
-                    currentCharge += abilityStat.chargeGainPerFullRecharge;
+                    currentCharge += chargeGainPerFullRecharge;
                 }
                 //subtract charge points required from charge point progress 
-                chargePointsProgress -= abilityStat.chargePointsRequired;
+                chargePointsProgress -= chargePointsRequired;
                 //if fully charged, reset charge point progress to 0
-                if (currentCharge >= abilityStat.maxCharge)
+                if (currentCharge >= maxCharge)
                 {
-                    currentCharge = abilityStat.maxCharge;
+                    currentCharge = maxCharge;
                     chargePointsProgress = 0;
                     rechargeInProgress = false;
                 }
@@ -204,7 +249,7 @@ public abstract class Ability: MonoBehaviour
 
     public void GiveChargePointDirect(float ChargePtAdd )
     {
-        RecoverChargePoint(ChargePtAdd / abilityStat.chargePointsPerSec);
+        RecoverChargePoint(ChargePtAdd / chargePointsPerSec);
     }
 
     public void InterruptReload()
@@ -217,10 +262,9 @@ public abstract class Ability: MonoBehaviour
 
     public virtual void Cleanup()
     {
-        if (abilityStat.actionReference != null)
+        if (actionReference != null)
             boundAction.started -= OnInputStarted;
             boundAction.performed -= OnInputHeld;
             boundAction.canceled -= OnInputCanceled;
     }
-
 }
