@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0991a46add759491897037072d66ae89
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - abilityStat: {fileID: 11400000, guid: 65ea82d6d1a95422396fff79c440789f, type: 2}
+  - SpeedBoost: {fileID: 11400000, guid: 102d9bbd0b8b343a4b16ff2762bb09ba, type: 2}
+  - UserRef: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -16,6 +16,9 @@ namespace StarterAssets
     {
         [Header("Player")]
 
+        [Tooltip("controller active")]
+        public bool IsActive = true;
+
         [Tooltip("Move speed of the character in m/s")]
         public float ForwardMoveSpeed = 2.0f;
         public float StrafeMoveSpeed = 2.0f;
@@ -90,6 +93,8 @@ namespace StarterAssets
         public float CameraSensitivityX = 1.0f;
         [Tooltip("Control camera sensitivity for y axis")]
         public float CameraSensitivityY = 1.0f;
+
+
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -170,16 +175,21 @@ namespace StarterAssets
 
         private void Update()
         {
-            _hasAnimator = TryGetComponent(out _animator);
+            if (IsActive){
+                _hasAnimator = TryGetComponent(out _animator);
 
-            JumpAndGravity();
-            GroundedCheck();
-            Move();
+                JumpAndGravity();
+                GroundedCheck();
+                Move();
+            }
+            
         }
 
         private void LateUpdate()
         {
-            CameraRotation();
+            if (IsActive){
+                CameraRotation();
+            }
         }
 
         private void AssignAnimationIDs()
