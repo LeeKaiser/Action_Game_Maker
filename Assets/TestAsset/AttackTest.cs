@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 #endif
 using System.Collections;
 
-[CreateAssetMenu(fileName = "AttackTest", menuName = "Scriptable Objects/Ability/AttackTest")]
 public class AttackTest : Ability
 {
     
@@ -13,12 +12,12 @@ public class AttackTest : Ability
     {
         if (currentCharge > 0)
         {
-            Debug.Log("Ability tapped or held.");
-            onAbilityUsePlayerEvent.DetectPlayerEvent();
+            Debug.Log("Ability tapped or held. apply speed boost");
+            abilityStat.onAbilityUsePlayerEvent.DetectPlayerEvent();
             currentCharge -= 1;
         }
         InterruptReload();
-        yield return new WaitForSeconds(useTime);
+        yield return new WaitForSeconds(abilityStat.useTime);
     }
 
     protected override IEnumerator ExecuteReleased(float chargeRatio)
@@ -28,12 +27,12 @@ public class AttackTest : Ability
         yield return null;
     }
 
-    public override void perTick(float deltaTime)
+    void Update()
     {
-        if (currentCharge < maxCharge && !isActive)
+        if (currentCharge < abilityStat.maxCharge && !isActive)
         {
             rechargeInProgress = true;
         }
-        RecoverChargePoint(deltaTime); //recharge every tick if possible
+        RecoverChargePoint(Time.deltaTime); //recharge every tick if possible
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 #endif
 using System.Collections;
 
-[CreateAssetMenu(fileName = "AbilityTest", menuName = "Scriptable Objects/Ability/AbilityTest")]
 public class AbilityTest : Ability
 {
     public StatusEffect SpeedBoost;
@@ -15,11 +14,11 @@ public class AbilityTest : Ability
         {
             Debug.Log("Ability tapped or held. apply speed boost");
             UserRef.GetComponent<StatusEffectManager>().AddNewEffect(SpeedBoost);
-            onAbilityUsePlayerEvent.DetectPlayerEvent();
+            abilityStat.onAbilityUsePlayerEvent.DetectPlayerEvent();
             currentCharge -= 1;
         }
         InterruptReload();
-        yield return new WaitForSeconds(useTime);
+        yield return new WaitForSeconds(abilityStat.useTime);
     }
 
     protected override IEnumerator ExecuteReleased(float chargeRatio)
@@ -29,12 +28,12 @@ public class AbilityTest : Ability
         yield return null;
     }
 
-    public override void perTick(float deltaTime)
+    void Update()
     {
-        if (currentCharge < maxCharge && !isActive)
+        if (currentCharge < abilityStat.maxCharge && !isActive)
         {
             rechargeInProgress = true;
         }
-        RecoverChargePoint(deltaTime); //recharge every tick if possible
+        RecoverChargePoint(Time.deltaTime); //recharge every tick if possible
     }
 }

@@ -110,15 +110,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Attack1"",
-                    ""type"": ""Button"",
-                    ""id"": ""7c1cb8f3-be95-415a-b7b9-52d32880fe13"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Hold"",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Look"",
                     ""type"": ""Value"",
                     ""id"": ""6b444451-8a00-4d00-a97e-f47457f736a8"",
@@ -309,7 +300,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""cdd66cc2-7b95-4584-b692-e36647257707"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
@@ -358,61 +349,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""XR"",
                     ""action"": ""Ability1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a42ea900-4984-45b7-bb91-1c945a71012d"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": ""Hold"",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Attack1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2b93be13-e773-4637-ae71-f7389d06d21c"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Hold,Tap"",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Attack1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e3386a28-43b5-46ee-b439-20a9b59ccf6d"",
-                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Touch"",
-                    ""action"": ""Attack1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""646b3718-83d1-4c27-b461-eb996abdb060"",
-                    ""path"": ""<Joystick>/trigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Attack1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""421be93f-cde9-4fcf-83b0-a6b0052b901e"",
-                    ""path"": ""<XRController>/{PrimaryAction}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
-                    ""action"": ""Attack1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1167,7 +1103,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Ability1 = m_Player.FindAction("Ability1", throwIfNotFound: true);
-        m_Player_Attack1 = m_Player.FindAction("Attack1", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
@@ -1269,7 +1204,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Ability1;
-    private readonly InputAction m_Player_Attack1;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_Jump;
@@ -1295,10 +1229,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Ability1".
         /// </summary>
         public InputAction @Ability1 => m_Wrapper.m_Player_Ability1;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/Attack1".
-        /// </summary>
-        public InputAction @Attack1 => m_Wrapper.m_Player_Attack1;
         /// <summary>
         /// Provides access to the underlying input action "Player/Look".
         /// </summary>
@@ -1355,9 +1285,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Ability1.started += instance.OnAbility1;
             @Ability1.performed += instance.OnAbility1;
             @Ability1.canceled += instance.OnAbility1;
-            @Attack1.started += instance.OnAttack1;
-            @Attack1.performed += instance.OnAttack1;
-            @Attack1.canceled += instance.OnAttack1;
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
@@ -1393,9 +1320,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Ability1.started -= instance.OnAbility1;
             @Ability1.performed -= instance.OnAbility1;
             @Ability1.canceled -= instance.OnAbility1;
-            @Attack1.started -= instance.OnAttack1;
-            @Attack1.performed -= instance.OnAttack1;
-            @Attack1.canceled -= instance.OnAttack1;
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
@@ -1728,13 +1652,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAbility1(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Attack1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnAttack1(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

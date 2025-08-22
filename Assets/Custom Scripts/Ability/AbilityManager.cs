@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class AbilityManager : MonoBehaviour
 {
-    [SerializeField] public Ability[] abilities;
+    [SerializeField] private Ability[] abilities;
     private PlayerInput playerInput;
     private Ability currentlyActiveAbility;
     public GameObject playerRef;
@@ -33,12 +33,12 @@ public class AbilityManager : MonoBehaviour
 
     public bool CanUseAbility(Ability ability)
     {
-        return currentlyActiveAbility == null || ability.canInterruptOthers;
+        return currentlyActiveAbility == null || ability.abilityStat.canInterruptOthers;
     }
 
     public void NotifyAbilityStarted(Ability ability)
     {
-        if (currentlyActiveAbility != null && ability.canInterruptOthers)
+        if (currentlyActiveAbility != null && ability.abilityStat.canInterruptOthers)
         {
             // Optionally add cancellation logic here
             Debug.Log($"{ability.name} is interrupting {currentlyActiveAbility.name}");
@@ -51,14 +51,5 @@ public class AbilityManager : MonoBehaviour
     {
         if (currentlyActiveAbility == ability)
             currentlyActiveAbility = null;
-    }
-
-    private void Update()
-    {
-        foreach (var ability in abilities)
-        {
-            if (ability != null)
-                ability.perTick(Time.deltaTime);
-        }
     }
 }
