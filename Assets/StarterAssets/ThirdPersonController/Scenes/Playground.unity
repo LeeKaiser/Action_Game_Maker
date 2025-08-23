@@ -358,6 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c3ca967cde1747fb8f094a29566c836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statusEffectList: []
   EffectTimeMultiplierBuffs: 1
   EffectTimeMultiplierDebuffs: 1
 --- !u!114 &144842368
@@ -654,6 +655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c3ca967cde1747fb8f094a29566c836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statusEffectList: []
   EffectTimeMultiplierBuffs: 1
   EffectTimeMultiplierDebuffs: 1
 --- !u!114 &721576140
@@ -1109,7 +1111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityStat: {fileID: 11400000, guid: 65ea82d6d1a95422396fff79c440789f, type: 2}
   UserRef: {fileID: 721576136}
-  SpeedBoost: {fileID: 11400000, guid: 102d9bbd0b8b343a4b16ff2762bb09ba, type: 2}
+  SpeedBoostPrefab: {fileID: 1030073838842322820, guid: 8e9f952b48b474fd5944c7e311dc5fd0, type: 3}
 --- !u!4 &1110910345
 Transform:
   m_ObjectHideFlags: 0
@@ -1622,7 +1624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee0875ffed6ca45ca9935dfb6d3ee190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilities:
+  abilitiesList:
   - {fileID: 1110910344}
   - {fileID: 1264278402}
   playerRef: {fileID: 721576136}

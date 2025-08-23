@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ac5a2720a9bf401594f3c85892612ff, type: 3}
   m_Name: TestStatusEffectStats
   m_EditorClassIdentifier: 
-  EffectDuration: 0
+  EffectDuration: 3
   ExpireViaTime: 1
-  effectCategory: 0
+  effectCategory: 1
