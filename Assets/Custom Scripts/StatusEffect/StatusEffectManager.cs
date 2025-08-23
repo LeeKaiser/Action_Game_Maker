@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using StarterAssets;
+using System;
 
 [System.Flags]
     public enum EffectCategory
@@ -15,7 +16,7 @@ public class StatusEffectManager : MonoBehaviour
 {
     [Header("Status Effect Stats")]
     [Tooltip("current status effects")]
-    List<StatusEffect> statusEffectList = new List<StatusEffect>();
+    [SerializeField] List<StatusEffect> statusEffectList = new List<StatusEffect>();
 
     PlayableCharCore playerRef;
 
@@ -30,11 +31,22 @@ public class StatusEffectManager : MonoBehaviour
     }
 
     //get effect
-    public void AddNewEffect(StatusEffect newEffect)
+    public void AddNewEffect(GameObject newEffect)
     {
-        statusEffectList.Add(newEffect);
-        newEffect.EffectedPlayer = playerRef;
-        newEffect.ApplyEffect();
+        // Make a copy of the prefab and attach it to the player
+        GameObject EffectObj = Instantiate(newEffect, transform);
+
+        // Grab the Ability script on that prefab
+        StatusEffect effect = EffectObj.GetComponent<StatusEffect>();
+        if (effect == null)
+        {
+            Debug.LogError("The prefab does not have an status effect component!");
+            return;
+        }
+
+        effect.setEffectedPlayer(playerRef);
+        effect.ApplyEffect();
+        statusEffectList.Add(effect);
     }
 
     public void Update()
@@ -42,14 +54,14 @@ public class StatusEffectManager : MonoBehaviour
         //delete inactive SE
         for (int i = statusEffectList.Count - 1; i >= 0; i--)
         {
-            if (statusEffectList[i].ExpireViaTime)
+            if (statusEffectList[i].statusEffectStat.ExpireViaTime)
             {
                 float DurationMult = 1;
-                if (statusEffectList[i].effectCategory == EffectCategory.Buff)
+                if (statusEffectList[i].statusEffectStat.effectCategory == EffectCategory.Buff)
                 {
                     DurationMult = EffectTimeMultiplierBuffs;
                 }
-                if (statusEffectList[i].effectCategory == EffectCategory.Debuff)
+                if (statusEffectList[i].statusEffectStat.effectCategory == EffectCategory.Debuff)
                 {
                     DurationMult = EffectTimeMultiplierDebuffs;
                 }
