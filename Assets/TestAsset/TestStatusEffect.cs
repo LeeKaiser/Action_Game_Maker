@@ -9,7 +9,7 @@ public class TestStatusEffect : StatusEffect
     public override void ApplyEffect()
     {
         Active = true;
-        RemainingDuration = EffectDuration;
+        RemainingDuration = statusEffectStat.EffectDuration;
         EffectedPlayer.ModifyForwardSpeed(SpeedMultiplierTest);
         EffectedPlayer.ModifyStrafeSpeed(SpeedMultiplierTest);
         EffectedPlayer.ModifyBackwardSpeed(SpeedMultiplierTest);

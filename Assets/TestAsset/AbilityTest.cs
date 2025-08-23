@@ -6,14 +6,14 @@ using System.Collections;
 
 public class AbilityTest : Ability
 {
-    public StatusEffect SpeedBoost;
+    public GameObject SpeedBoostPrefab;
 
     protected override IEnumerator Execute()
     {
         if (currentCharge > 0)
         {
             Debug.Log("Ability tapped or held. apply speed boost");
-            UserRef.GetComponent<StatusEffectManager>().AddNewEffect(SpeedBoost);
+            UserRef.GetComponent<StatusEffectManager>().AddNewEffect(SpeedBoostPrefab);
             abilityStat.onAbilityUsePlayerEvent.DetectPlayerEvent();
             currentCharge -= 1;
         }

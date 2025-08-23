@@ -1,38 +1,26 @@
 using UnityEngine;
-using StarterAssets;
 
-
-
-
-[CreateAssetMenu(fileName = "StatusEffect", menuName = "Scriptable Objects/StatusEffect")]
-public abstract class StatusEffect : ScriptableObject
+public abstract class StatusEffect : MonoBehaviour
 {
-    [Header("Status Effect Stats")]
-    [Tooltip("duration")]
-    public float EffectDuration;
+
+    public StatusEffectStats statusEffectStat;
+
     protected float RemainingDuration;
 
-    [Tooltip("duration is time based. true if it is time based, false if duration uses other system")]
-    public bool ExpireViaTime = true;
-
-    public PlayableCharCore EffectedPlayer;
+    protected PlayableCharCore EffectedPlayer;
 
     protected bool Active = true; //is active
 
+    private void Start()
+    {
+        RemainingDuration = statusEffectStat.EffectDuration;
+    }
     
-
-    public EffectCategory effectCategory;
-
     //main effect
     public abstract void ApplyEffect();
 
     //inverse of effect that activates to remove the effect
     protected abstract void RemoveEffect();
-
-    public bool CurrentlyActive()
-    {
-        return Active;
-    }
 
     public void SpendDuration(float timePassed)
     {
@@ -43,5 +31,15 @@ public abstract class StatusEffect : ScriptableObject
             Active = false;
         }
 
+    }
+
+    public bool CurrentlyActive()
+    {
+        return Active;
+    }
+
+    public void setEffectedPlayer(PlayableCharCore player)
+    {
+        EffectedPlayer = player;
     }
 }
