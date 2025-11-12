@@ -1,12 +1,6 @@
-# HERO SHOOTER MAKER (HSM)
+# ACTION GAME MAKER (AGM)
 
-Hero Shooter Maker is a template for a custom hero shooter game creation. (Work in progress)
-
-Hero Shooter refers to a genre of games where there are teams composed of some number of players who pick a playable character, and fight each other to complete an objective.
-While the primary purpose of this project is to serve as a starting point for creating hero shooters, this can also function as starting point for any game that has some features of hero shooters.
-
-Examples of existing Hero Shooters includes: OVERWATCH by Blizzard, TEAM FORTRESS 2 by Valve, MARVEL RIVALS by NetEase Games, VALORANT by Riot Games, DEADLOCK by Valve, and more.
-You can expect HSM to provide tools to replicate core features of these games.
+Replicates basic system seen in videogames revolving around combat.
 
 ## Player Focused Feature
 - Movement & camera controls (COMPLETE)
