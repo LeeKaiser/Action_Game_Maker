@@ -3,29 +3,36 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #endif
 using System.Collections;
+using AbilityInputEvents;
 
 public class AbilityTest : Ability
 {
     public GameObject SpeedBoostPrefab;
 
-    protected override IEnumerator Execute()
-    {
-        if (currentCharge > 0)
-        {
-            Debug.Log("Ability tapped or held. apply speed boost");
-            UserRef.GetComponent<StatusEffectManager>().AddNewEffect(SpeedBoostPrefab);
-            abilityStat.onAbilityUsePlayerEvent.DetectPlayerEvent();
-            currentCharge -= 1;
-        }
-        InterruptReload();
-        yield return new WaitForSeconds(abilityStat.useTime);
+    void Start(){
+        EventBus<PlayerStartAbility1>.Subscribe(executeAbility);
     }
 
-    protected override IEnumerator ExecuteReleased(float chargeRatio)
+    public void executeAbility(PlayerStartAbility1 inputEventInfo)
     {
-        Debug.Log($"Ability released with charge: {chargeRatio:F2}");
-        currentCharge -= 1;
-        yield return null;
+        if (inputEventInfo.PlayerIdentity != UserRef)
+        {
+            return;
+        }
+
+        if (!CanActivate())
+        {
+            return;
+        }
+
+        if (currentCharge <= 0)
+        {
+            return;
+        }
+
+        InterruptReload();
+        Debug.Log("Ability1 activated");
+        ConsumeCharge(1);
     }
 
     void Update()
@@ -35,5 +42,10 @@ public class AbilityTest : Ability
             rechargeInProgress = true;
         }
         RecoverChargePoint(Time.deltaTime); //recharge every tick if possible
+    }
+
+    public override void Cleanup()
+    {
+        EventBus<PlayerStartAbility1>.Unsubscribe(executeAbility);
     }
 }

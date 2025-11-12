@@ -51,6 +51,4 @@ public class AbilityStats : ScriptableObject
 
     public InputResponseMode inputMode = InputResponseMode.Tap | InputResponseMode.Release;
 
-    [Header("Events default to all abilities")]
-    public PlayerEvent onAbilityUsePlayerEvent;
 }

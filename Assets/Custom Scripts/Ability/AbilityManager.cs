@@ -6,13 +6,11 @@ using System;
 public class AbilityManager : MonoBehaviour
 {
     [SerializeField] private List<Ability> abilitiesList;
-    private PlayerInput playerInput;
     private Ability currentlyActiveAbility;
     public GameObject playerRef;
 
     void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
     }
 
     void Start()
@@ -20,7 +18,7 @@ public class AbilityManager : MonoBehaviour
         foreach (var ability in abilitiesList)
         {
             if (ability != null)
-                ability.Initialize(playerInput, this, playerRef);
+                ability.Initialize( this, playerRef);
         }
     }
 
@@ -35,6 +33,7 @@ public class AbilityManager : MonoBehaviour
 
     public bool CanUseAbility(Ability ability)
     {
+        //returns if ability is set as usable in the current system
         return currentlyActiveAbility == null || ability.abilityStat.canInterruptOthers;
     }
 
@@ -67,7 +66,7 @@ public class AbilityManager : MonoBehaviour
             Debug.LogError("The prefab does not have an Ability component!");
             return;
         }
-        ability.Initialize(playerInput, this, playerRef);
+        ability.Initialize(this, playerRef);
         abilitiesList.Add(ability);
     }
 }
