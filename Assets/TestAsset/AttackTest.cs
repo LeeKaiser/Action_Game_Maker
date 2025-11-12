@@ -8,24 +8,6 @@ public class AttackTest : Ability
 {
     
 
-    protected override IEnumerator Execute()
-    {
-        if (currentCharge > 0)
-        {
-            Debug.Log("Ability tapped or held. apply speed boost");
-            abilityStat.onAbilityUsePlayerEvent.DetectPlayerEvent();
-            currentCharge -= 1;
-        }
-        InterruptReload();
-        yield return new WaitForSeconds(abilityStat.useTime);
-    }
-
-    protected override IEnumerator ExecuteReleased(float chargeRatio)
-    {
-        Debug.Log($"Ability released with charge: {chargeRatio:F2}");
-        currentCharge -= 1;
-        yield return null;
-    }
 
     void Update()
     {
@@ -34,5 +16,10 @@ public class AttackTest : Ability
             rechargeInProgress = true;
         }
         RecoverChargePoint(Time.deltaTime); //recharge every tick if possible
+    }
+
+    public override void Cleanup()
+    {
+
     }
 }
