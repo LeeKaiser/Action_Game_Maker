@@ -16,20 +16,13 @@ You can expect HSM to provide tools to replicate core features of these games.
   - holds player stats in a scriptable object, and updates other scripts based on player's stats, and handle some player events
 
 - Ability array (COMPLETE)
-  - player press button to make something happen. has internal cooldown that controls usage
-
-- Passive array 
-  - listen for events and act accordingly
+  - it listens for events then makes something happen. has internal cooldown that controls usage
 
 - Inventory array 
   - holds items
 
 - Status effect array (nearly complete)
   - handle temporary modifications of a player
-
-- Player Event Manager (COMPLETE)
-  - parts of player such as player core, abilities, ability manager, etc all call events through an event object inside of player event manager.
-  - This allows game mechanics that operate based on player events to be able to reference this player event manager.
 
 - AI players
   - Primarily for making players who are not controlled by a client. Should also be applicable for making other AI controlled entity such as spawnables or npc monsters
