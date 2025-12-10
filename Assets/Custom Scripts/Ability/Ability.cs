@@ -21,12 +21,13 @@ public abstract class Ability: MonoBehaviour
 
     protected bool rechargeInProgress = false;
 
-    protected AbilityManager manager;
+    public AbilityManager manager;
     protected bool isActive = false;
 
-    void Start()
+    void Awake()
     {
         currentCharge = abilityStat.maxCharge;
+        GetComponentInParent<AbilityManager>().AddAbility(this.gameObject);
     }
 
     public virtual void Initialize(AbilityManager owningManager, GameObject playerReference)
