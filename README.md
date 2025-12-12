@@ -8,6 +8,9 @@ Replicates basic system seen in videogames revolving around combat.
 
 - Player core (hitpoints, damage multiplier, etc.) (COMPLETE)
   - holds player stats in a scriptable object, and updates other scripts based on player's stats, and handle some player events
+ 
+- Player Interaction
+  - allow for interaction between players (such as dealing damage to each other)
 
 - Ability array (COMPLETE)
   - it listens for events then makes something happen. has internal cooldown that controls usage
