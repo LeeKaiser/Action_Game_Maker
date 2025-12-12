@@ -39,6 +39,8 @@ public class PlayableCharCore : MonoBehaviour
     [Tooltip("Third person controller script")]
     public ThirdPersonController playerMovement;
 
+    public Transform PlayerArmature;
+
 #if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
 #endif

@@ -9,6 +9,8 @@ public class AbilityManager : MonoBehaviour
     private Ability currentlyActiveAbility;
     public GameObject playerRef;
 
+    public Transform playerCanvas;
+
     void Awake()
     {
     }
@@ -19,6 +21,18 @@ public class AbilityManager : MonoBehaviour
         {
             if (ability != null)
                 ability.Initialize( this, playerRef);
+        }
+    }
+
+    void Update()
+    {
+        //reload all abilities per update call:
+        foreach (var ability in abilitiesList)
+        {
+            ability.ActivateReload();
+            ability.ReloadOverTime(Time.deltaTime);
+            //call ability's ui to update
+            ability.AbilUIRef.UpdateUI();
         }
     }
 
@@ -54,19 +68,31 @@ public class AbilityManager : MonoBehaviour
             currentlyActiveAbility = null;
     }
 
-    public void AddAbility(GameObject abilityPrefab)
+    public void AddAbility(GameObject newAbility)
     {
         // Make a copy of the prefab and attach it to the player
-        GameObject abilityObj = Instantiate(abilityPrefab, transform);
+        //GameObject abilityObj = Instantiate(abilityPrefab, transform);
 
         // Grab the Ability script on that prefab
-        Ability ability = abilityObj.GetComponent<Ability>();
+        Ability ability = newAbility.GetComponent<Ability>();
         if (ability == null)
         {
             Debug.LogError("The prefab does not have an Ability component!");
             return;
         }
         ability.Initialize(this, playerRef);
+
+        GameObject AbilUI = Instantiate(ability.abilityStat.abilUIPrefab);
+
+
+        AbilityUI AbilUIScript = AbilUI.GetComponent<AbilityUI>();
+        AbilUIScript.transform.SetParent(playerCanvas, false);
+        if (AbilUIScript != null)
+        {
+            AbilUIScript.abilityRef = ability;
+            AbilUIScript.Initialize();
+        }
+        ability.AbilUIRef = AbilUIScript;
         abilitiesList.Add(ability);
     }
 }

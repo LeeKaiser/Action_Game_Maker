@@ -21,12 +21,15 @@ public abstract class Ability: MonoBehaviour
 
     protected bool rechargeInProgress = false;
 
-    protected AbilityManager manager;
-    protected bool isActive = false;
+    public AbilityManager manager; //reference to ability manager
+    protected bool isActive = false; // 
 
-    void Start()
+    public AbilityUI AbilUIRef; //reference to ability's UI
+
+    void Awake()
     {
         currentCharge = abilityStat.maxCharge;
+        GetComponentInParent<AbilityManager>().AddAbility(this.gameObject);
     }
 
     public virtual void Initialize(AbilityManager owningManager, GameObject playerReference)
@@ -55,13 +58,24 @@ public abstract class Ability: MonoBehaviour
         return !isActive && manager.CanUseAbility(this) && currentCharge >= 1;
     }
 
+    //when ability is missing any charge, set recharge in progress to true
+    public void ActivateReload()
+    {
+        if (currentCharge < abilityStat.maxCharge && !isActive)
+        {
+            rechargeInProgress = true;
+        }
+    }
+
     // # Ability recharge code
     //recover ability charge point
-    public void RecoverChargePoint(float TimeElapsed){
+    public void RecoverChargePoint(float chargeAdded){
 
         if (rechargeInProgress)
         {
-            chargePointsProgress += abilityStat.chargePointsPerSec * TimeElapsed * chargePointMultiplier;
+            //add to charge point's progress
+            chargePointsProgress += chargeAdded;
+            //converts charge points progress to charge
             while (chargePointsProgress >= abilityStat.chargePointsRequired)
             {
                 //give a charge
@@ -82,9 +96,11 @@ public abstract class Ability: MonoBehaviour
         }
     }
 
-    public void GiveChargePointDirect(float ChargePtAdd )
+    //for abilities that reload over time, call this method every update
+    public void ReloadOverTime(float TimeElapsed )
     {
-        RecoverChargePoint(ChargePtAdd / abilityStat.chargePointsPerSec);
+        float newCharge = abilityStat.chargePointsPerSec * TimeElapsed * chargePointMultiplier;
+        RecoverChargePoint(newCharge);
     }
 
     public void InterruptReload()
@@ -97,4 +113,6 @@ public abstract class Ability: MonoBehaviour
 
     public abstract void Cleanup();
 
+    public float GetCurrentCharge() { return currentCharge;}
+    public float GetChargePointProgress() { return chargePointsProgress;}
 }
