@@ -22,6 +22,16 @@ public class AbilityManager : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        //reload all abilities per update call:
+        foreach (var ability in abilitiesList)
+        {
+            ability.ActivateReload();
+            ability.ReloadOverTime(Time.deltaTime);
+        }
+    }
+
     void OnDisable()
     {
         foreach (var ability in abilitiesList)

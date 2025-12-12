@@ -37,14 +37,6 @@ public class AttackTest : Ability
         ConsumeCharge(1);
     }
 
-    void Update()
-    {
-        if (currentCharge < abilityStat.maxCharge && !isActive)
-        {
-            rechargeInProgress = true;
-        }
-        RecoverChargePoint(Time.deltaTime); //recharge every tick if possible
-    }
 
     public override void Cleanup()
     {

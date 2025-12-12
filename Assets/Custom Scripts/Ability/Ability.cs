@@ -56,13 +56,22 @@ public abstract class Ability: MonoBehaviour
         return !isActive && manager.CanUseAbility(this) && currentCharge >= 1;
     }
 
+    //when ability is missing any charge, set recharge in progress to true
+    public void ActivateReload()
+    {
+        if (currentCharge < abilityStat.maxCharge && !isActive)
+        {
+            rechargeInProgress = true;
+        }
+    }
+
     // # Ability recharge code
     //recover ability charge point
-    public void RecoverChargePoint(float TimeElapsed){
+    public void RecoverChargePoint(float chargeAdded){
 
         if (rechargeInProgress)
         {
-            chargePointsProgress += abilityStat.chargePointsPerSec * TimeElapsed * chargePointMultiplier;
+            chargePointsProgress += chargeAdded;
             while (chargePointsProgress >= abilityStat.chargePointsRequired)
             {
                 //give a charge
@@ -83,9 +92,11 @@ public abstract class Ability: MonoBehaviour
         }
     }
 
-    public void GiveChargePointDirect(float ChargePtAdd )
+    //for abilities that reload over time, call this method every update
+    public void ReloadOverTime(float TimeElapsed )
     {
-        RecoverChargePoint(ChargePtAdd / abilityStat.chargePointsPerSec);
+        float newCharge = abilityStat.chargePointsPerSec * TimeElapsed * chargePointMultiplier;
+        RecoverChargePoint(newCharge);
     }
 
     public void InterruptReload()
