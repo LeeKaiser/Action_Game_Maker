@@ -7,6 +7,10 @@ using System;
 public class AbilityStats : ScriptableObject
 {
     //variables
+    [Tooltip("name of the ability")]
+    public string abilityName = "";
+    public GameObject abilUIPrefab = null;
+
     [Header("Cooldown variables")]
     [Tooltip("maximum amount of charge that can be held")]
     public int maxCharge = 1;
@@ -39,16 +43,5 @@ public class AbilityStats : ScriptableObject
     [Header("hold fire variables")]
     [Tooltip("amount of time ability is used per second")]
     public float usePerSec;
-
-    [System.Flags]
-    public enum InputResponseMode
-    {
-        None = 0,
-        Tap = 1 << 0,
-        Hold = 1 << 1,
-        Release = 1 << 2
-    }
-
-    public InputResponseMode inputMode = InputResponseMode.Tap | InputResponseMode.Release;
 
 }

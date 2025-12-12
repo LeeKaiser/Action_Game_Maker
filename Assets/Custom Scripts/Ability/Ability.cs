@@ -21,8 +21,10 @@ public abstract class Ability: MonoBehaviour
 
     protected bool rechargeInProgress = false;
 
-    public AbilityManager manager;
-    protected bool isActive = false;
+    public AbilityManager manager; //reference to ability manager
+    protected bool isActive = false; // 
+
+    public AbilityUI AbilUIRef; //reference to ability's UI
 
     void Awake()
     {
@@ -71,7 +73,9 @@ public abstract class Ability: MonoBehaviour
 
         if (rechargeInProgress)
         {
+            //add to charge point's progress
             chargePointsProgress += chargeAdded;
+            //converts charge points progress to charge
             while (chargePointsProgress >= abilityStat.chargePointsRequired)
             {
                 //give a charge
@@ -109,4 +113,6 @@ public abstract class Ability: MonoBehaviour
 
     public abstract void Cleanup();
 
+    public float GetCurrentCharge() { return currentCharge;}
+    public float GetChargePointProgress() { return chargePointsProgress;}
 }

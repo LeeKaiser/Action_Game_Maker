@@ -9,6 +9,8 @@ public class AbilityManager : MonoBehaviour
     private Ability currentlyActiveAbility;
     public GameObject playerRef;
 
+    public Transform playerCanvas;
+
     void Awake()
     {
     }
@@ -29,6 +31,8 @@ public class AbilityManager : MonoBehaviour
         {
             ability.ActivateReload();
             ability.ReloadOverTime(Time.deltaTime);
+            //call ability's ui to update
+            ability.AbilUIRef.UpdateUI();
         }
     }
 
@@ -77,6 +81,18 @@ public class AbilityManager : MonoBehaviour
             return;
         }
         ability.Initialize(this, playerRef);
+
+        GameObject AbilUI = Instantiate(ability.abilityStat.abilUIPrefab);
+
+
+        AbilityUI AbilUIScript = AbilUI.GetComponent<AbilityUI>();
+        AbilUIScript.transform.SetParent(playerCanvas, false);
+        if (AbilUIScript != null)
+        {
+            AbilUIScript.abilityRef = ability;
+            AbilUIScript.Initialize();
+        }
+        ability.AbilUIRef = AbilUIScript;
         abilitiesList.Add(ability);
     }
 }
