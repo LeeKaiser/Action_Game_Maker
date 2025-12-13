@@ -55,7 +55,7 @@ MonoBehaviour:
   PlayerStats: {fileID: 11400000, guid: 91416d36eb03940b1a4e428ffabeaf7f, type: 2}
   PlayerFaceMovement: 0
   playerMovement: {fileID: 7308121963934228869}
-  PlayerArmature: {fileID: 0}
+  PlayerArmature: {fileID: 7935477338177272628}
 --- !u!114 &4841635359554779518
 MonoBehaviour:
   m_ObjectHideFlags: 0

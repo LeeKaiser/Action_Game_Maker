@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4932417b3b5a94e0591b157fb2f26d44, type: 3}
   m_Name: TestAbilityStats
   m_EditorClassIdentifier: 
-  maxCharge: 1
+  abilityName: Test Ability
+  abilUIPrefab: {fileID: 5694682100280509937, guid: 66e3a075af105480da743b359ae7f390, type: 3}
+  maxCharge: 10
   chargePointsRequired: 100
-  chargePointsPerSec: 1000
-  chargeGainPerFullRecharge: 1
+  chargePointsPerSec: 50
+  chargeGainPerFullRecharge: 10
   actionReference: {fileID: 2427769509979364270, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   canInterruptOthers: 0
   useTime: 0.2
   useFailTime: 0
   maxChargeTime: 0
   usePerSec: 0
-  inputMode: 1
-  onAbilityUsePlayerEvent: {fileID: 11400000, guid: e7d286442bcbf41ac98bd61f1bb2ffbe, type: 2}
